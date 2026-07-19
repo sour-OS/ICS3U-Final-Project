@@ -1,11 +1,19 @@
 # Souro's Diner
 
-A text-based restaurant ordering game built in Python for my ICS3U final project.
+A text-based restaurant ordering game built in Python for my ICS3U culminating project, built to
+demonstrate input/output, variables, arithmetic, if/else logic, loops, and functions.
 
 ## Description
 
 Souro's Diner is a console game that simulates ordering food at a restaurant. Players
-choose from five menu categories:breakfast, lunch, dinner, desserts, and drinks.
+choose from five menu categories:
+
+- Breakfast
+- Lunch
+- Dinner
+- Desserts
+- Drinks
+
 They'll select items and quantities, and receive an itemized receipt with subtotal, tax, and
 total at checkout. The game validates all user input so it can't be crashed by invalid
 entries, and loops until the player chooses to exit. This project was built to
@@ -56,7 +64,7 @@ python -m PyInstaller --onefile restaurantgame.py
 
 ## Authors
 
-Sourodeep Bhowmik
+@sour-OS Sourodeep Bhowmik 
 
 ## Version History
 
