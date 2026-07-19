@@ -8,43 +8,42 @@ Sourodeep Bhowmik
 
 #-------------------------------------------------------------------
 # imports
-import random
 
 #-------------------------------------------------------------------
 # global variables
 userInput = 1
-breakfastItems = ["Pancakes", "Waffles", "Omelet"]      # breakfast item list
-breakfastPrices = [4.00, 4.50, 4.25]                 # breakfast item prices list
-lunchItems = ["Steak", "Chicken Parmesan", "Vegetable Stir Fry"]      # lunch item list
-lunchPrices = [8.99, 10.50, 6.75]                 # lunch item prices list
-dinnerItems = ["Salmon", "Beef Tenderloin", "Vegetarian Lasagna"]      # dinner item list
-dinnerPrices = [12.99, 15.50, 9.75]                 # dinner item prices list
-dessertItems = ["Cheesecake", "Chocolate Cake", "Ice Cream"]      # dessert item list
+breakfastItems = ["Pancakes", "Waffles", "Omelet"] # breakfast item list
+breakfastPrices = [4.00, 4.50, 4.25] # breakfast item prices list
+lunchItems = ["Steak", "Chicken Parmesan", "Vegetable Stir Fry"] # lunch item list
+lunchPrices = [8.99, 10.50, 6.75] # lunch item prices list
+dinnerItems = ["Salmon", "Beef Tenderloin", "Vegetarian Lasagna"] # dinner item list
+dinnerPrices = [12.99, 15.50, 9.75] # dinner item prices list
+dessertItems = ["Cheesecake", "Chocolate Cake", "Ice Cream"] # dessert item list
 dessertPrices = [4.50, 5.00, 3.25]
-drinkItems = ["Soda", "Coffee", "Tea"]      # drinks item list
+drinkItems = ["Soda", "Coffee", "Tea"] # drinks item list
 drinkPrices = [1.50, 2.00, 1.75]
-orderList = []                                    # holds ordered item tuples
-totalCost = 0                                     # running subtotal
+orderList = [] # holds ordered item tuples
+totalCost = 0 # running subtotal
 TAX_RATE = 0.08
 
 #-------------------------------------------------------------------
 # modules
 
-def greetings():
+def greetings(): # greets the user in the beginning of the program
     print("Welcome to Souro's Diner!\n")
 
-def show_main_menu():
+def show_main_menu(): # displays the main menu to the user
     print("Main Menu\n")
     print("\t1. Order Food")
     print("\t0. Exit\n")
 
-def show_menu(itemList, priceList):
+def show_menu(itemList, priceList): # displays the menu of items and prices to the user
     print("Menu\n")
     for i in range(len(itemList)):
         print(f"\t{i+1}. {itemList[i]} - ${priceList[i]:.2f}")
     print("\t0. Checkout / Exit\n")
 
-def choose_category():
+def choose_category(): # prompts the user to choose a category and returns the corresponding item and price lists
     valid = False
     while valid == False:
         cat = input("Choose a category (breakfast/lunch/dinner/desserts/drinks): ").lower()
@@ -61,8 +60,8 @@ def choose_category():
         else:
             print("Not a valid category, try again.\n")
 
-def take_order(itemList, priceList):
-    global totalCost  # need this since we're changing the global variable
+def take_order(itemList, priceList): # takes the user's order and updates the order list and total cost
+    global totalCost  # changing the global variable
 
     # --- validate item choice ---
     validChoice = False
@@ -89,7 +88,7 @@ def take_order(itemList, priceList):
     totalCost = totalCost + (priceList[choice] * qty)
     print(f"Added {qty} x {itemList[choice]} to your order.\n")
 
-def print_receipt():
+def print_receipt(): # prints the receipt of the order with itemized costs, subtotal, tax, and total
     print("----- Receipt -----")
     for name, price, qty in orderList:
         line_total = price * qty
@@ -99,7 +98,7 @@ def print_receipt():
     print(f"Tax: ${tax:.2f}")
     print(f"Total: ${totalCost + tax:.2f}")
 
-def bye():
+def bye(): # says bye to the customer, not much else
     print("Thanks for ordering with us!\n")
     print_receipt()
 
@@ -121,3 +120,5 @@ while userInput != 0:
             print("Not a valid option!\n")
 
 bye()
+
+input("Press Enter to exit...")
