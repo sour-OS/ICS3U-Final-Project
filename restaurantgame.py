@@ -9,6 +9,8 @@ Sourodeep Bhowmik
 #-------------------------------------------------------------------
 # imports
 
+# no imports needed for this program
+
 #-------------------------------------------------------------------
 # global variables
 userInput = 1
