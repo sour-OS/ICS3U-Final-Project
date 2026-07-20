@@ -1,53 +1,73 @@
-'''restaurantgame.py
-
+'''
+restaurantgame.py
 Sourodeep Bhowmik
- 2026/07/17
- program description:  Final Project - Restaurant Game
+2026/07/17
+
 
 '''
 
 #-------------------------------------------------------------------
 # imports
-
-# no imports needed for this program
+import random
 
 #-------------------------------------------------------------------
-# global variables
+# global variables: store game state such as budget, people count, menu items, prices, order list, and running totals
+
 userInput = 1
-breakfastItems = ["Pancakes", "Waffles", "Omelet"] # breakfast item list
-breakfastPrices = [4.00, 4.50, 4.25] # breakfast item prices list
-lunchItems = ["Steak", "Chicken Parmesan", "Vegetable Stir Fry"] # lunch item list
-lunchPrices = [8.99, 10.50, 6.75] # lunch item prices list
-dinnerItems = ["Salmon", "Beef Tenderloin", "Vegetarian Lasagna"] # dinner item list
-dinnerPrices = [12.99, 15.50, 9.75] # dinner item prices list
-dessertItems = ["Cheesecake", "Chocolate Cake", "Ice Cream"] # dessert item list
+
+budget = random.randint(25, 75)  # random starting money
+peopleCount = int(input("How many people are in your party? "))  # user input
+itemsNeeded = peopleCount * 2  # each person needs 2 items
+moneyRemaining = budget  # track remaining money
+itemsPurchased = 0  # track how many items have been bought
+
+# menu item lists
+breakfastItems = ["Idli & Dosa", "Paratha", "Eggroll"]
+breakfastPrices = [4.00, 4.50, 4.25]
+
+lunchItems = ["Pulao", "Dal Tadka", "Rajma"]
+lunchPrices = [7.99, 8.50, 6.75]
+
+dinnerItems = ["Biriyani", "Khichdi", "Butter Chicken"]
+dinnerPrices = [12.99, 15.50, 9.75]
+
+dessertItems = ["Gulab Jamun", "Rasgulla", "Kheer"]
 dessertPrices = [4.50, 5.00, 3.25]
-drinkItems = ["Soda", "Coffee", "Tea"] # drinks item list
+
+drinkItems = ["Soda", "Coffee", "Tea"]
 drinkPrices = [1.50, 2.00, 1.75]
-orderList = [] # holds ordered item tuples
-totalCost = 0 # running subtotal
-TAX_RATE = 0.08
+
+orderList = []  # stores ordered items
+totalCost = 0  # running subtotal
+TAX_RATE = 0.08  # constant tax rate
 
 #-------------------------------------------------------------------
-# modules
+# modules: functions used to organize the program into reusable parts
 
-def greetings(): # greets the user in the beginning of the program
+def greetings():
+    # Prints welcome message and shows the user's starting budget and item requirement
     print("Welcome to Souro's Diner!\n")
+    print(f"Your budget is: ${budget:.2f}")
+    print(f"You need to buy {itemsNeeded} total items for your party.\n")
 
-def show_main_menu(): # displays the main menu to the user
+def show_main_menu():
+    # Displays the main menu options for the user
     print("Main Menu\n")
     print("\t1. Order Food")
-    print("\t0. Exit\n")
+    print("\t2. Check Budget / People Status")
+    print("\t0. Checkout / Exit\n")
 
-def show_menu(itemList, priceList): # displays the menu of items and prices to the user
+def show_menu(itemList, priceList):
+    # Shows the selected category's items and prices
     print("Menu\n")
     for i in range(len(itemList)):
         print(f"\t{i+1}. {itemList[i]} - ${priceList[i]:.2f}")
-    print("\t0. Checkout / Exit\n")
+    print("\t0. Go Back\n")
 
-def choose_category(): # prompts the user to choose a category and returns the corresponding item and price lists
+def choose_category():
+    # Asks the user to choose a food category and returns the correct item/price lists
     valid = False
-    while valid == False:
+    while not valid:
         cat = input("Choose a category (breakfast/lunch/dinner/desserts/drinks): ").lower()
         if cat == "breakfast":
             return breakfastItems, breakfastPrices
@@ -62,22 +82,26 @@ def choose_category(): # prompts the user to choose a category and returns the c
         else:
             print("Not a valid category, try again.\n")
 
-def take_order(itemList, priceList): # takes the user's order and updates the order list and total cost
-    global totalCost  # changing the global variable
+def take_order(itemList, priceList):
+    # Handles ordering: validates item number and quantity,
+    # checks if the user can afford the purchase,
+    # updates totals, money remaining, and items purchased
+
+    global totalCost, moneyRemaining, itemsPurchased
 
     # --- validate item choice ---
     validChoice = False
-    while validChoice == False:
+    while not validChoice:
         raw = input("Enter item number: ")
         if raw.isdigit() and 1 <= int(raw) <= len(itemList):
-            choice = int(raw) - 1  # convert to list index
+            choice = int(raw) - 1
             validChoice = True
         else:
             print("Invalid item number, try again.\n")
 
     # --- validate quantity ---
     validQty = False
-    while validQty == False:
+    while not validQty:
         raw = input("How many? ")
         if raw.isdigit() and int(raw) > 0:
             qty = int(raw)
@@ -85,42 +109,98 @@ def take_order(itemList, priceList): # takes the user's order and updates the or
         else:
             print("Enter a whole number greater than 0.\n")
 
-    # --- arithmetic: add to order ---
+    # --- calculate cost ---
+    itemCost = priceList[choice] * qty
+
+    # --- check if user can afford ---
+    if itemCost > moneyRemaining:
+        print(f"You cannot afford {qty} x {itemList[choice]}.\n")
+        return
+
+    # --- update totals ---
     orderList.append((itemList[choice], priceList[choice], qty))
-    totalCost = totalCost + (priceList[choice] * qty)
+    totalCost += itemCost
+    moneyRemaining -= itemCost
+    itemsPurchased += qty
+
     print(f"Added {qty} x {itemList[choice]} to your order.\n")
 
-def print_receipt(): # prints the receipt of the order with itemized costs, subtotal, tax, and total
-    print("----- Receipt -----")
+def print_receipt():
+    # Prints the final receipt including itemized costs, tax,
+    # total, budget summary, and success/failure message
+
+    print("\n----- Receipt -----")
     for name, price, qty in orderList:
         line_total = price * qty
         print(f"{name} x {qty} - ${line_total:.2f}")
-    tax = totalCost * TAX_RATE
-    print(f"Subtotal: ${totalCost:.2f}")
-    print(f"Tax: ${tax:.2f}")
-    print(f"Total: ${totalCost + tax:.2f}")
 
-def bye(): # says bye to the customer, not much else
-    print("Thanks for ordering with us!\n")
+    tax = totalCost * TAX_RATE
+    finalTotal = totalCost + tax
+
+    print(f"\nSubtotal: ${totalCost:.2f}")
+    print(f"Tax: ${tax:.2f}")
+    print(f"Total: ${finalTotal:.2f}")
+
+    print("\n----- Summary -----")
+    print(f"Budget: ${budget:.2f}")
+    print(f"Money Remaining: ${moneyRemaining:.2f}")
+    print(f"People in Party: {peopleCount}")
+    print(f"Items Needed: {itemsNeeded}")
+    print(f"Items Purchased: {itemsPurchased}")
+
+    if itemsPurchased >= itemsNeeded:
+        print("\nYou successfully purchased enough items for your party!")
+    else:
+        print(f"\nYou did NOT purchase enough items. You were short by {itemsNeeded - itemsPurchased} items.")
+
+def bye():
+    # Prints a goodbye message and calls the receipt function
+    print("\nThanks for ordering with us!\n")
     print_receipt()
 
 #-------------------------------------------------------------------
 # main code
 
 greetings()
+
 while userInput != 0:
     show_main_menu()
     userInput = int(input("What would you like to do?\n"))
+
     match userInput:
         case 1:
+            # User chooses to order food
             items, prices = choose_category()
             show_menu(items, prices)
             take_order(items, prices)
+
+            # enforce item requirement
+            if itemsPurchased < itemsNeeded:
+                print(f"You still need {itemsNeeded - itemsPurchased} more items.\n")
+
+            # enforce money fail condition
+            if moneyRemaining <= 0 and itemsPurchased < itemsNeeded:
+                print("You ran out of money before serving everyone!\n")
+                break
+
+        case 2:
+            # Show current budget and progress
+            print(f"\nBudget: ${budget:.2f}")
+            print(f"People in party: {peopleCount}")
+            print(f"Items needed: {itemsNeeded}")
+            print(f"Money remaining: ${moneyRemaining:.2f}")
+            print(f"Items purchased: {itemsPurchased}\n")
+
         case 0:
-            break
-        case other:
+            # Prevent checkout if user hasn't bought enough items
+            if itemsPurchased < itemsNeeded:
+                print(f"You cannot checkout yet! You still need {itemsNeeded - itemsPurchased} more items.\n")
+                userInput = 1  # send user back to menu
+            else:
+                break
+
+        case _:
             print("Not a valid option!\n")
 
 bye()
-
 input("Press Enter to exit...")
