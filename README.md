@@ -67,6 +67,8 @@ python -m PyInstaller --onefile restaurantgame.py
 Sourodeep Bhowmik
 
 ## Version History
+* 0.1.2
+Third release — changed print receipt function so that it saves game info onto a text file.
 * 0.1.1
 Second release — added budget system to the game
 * 0.1
