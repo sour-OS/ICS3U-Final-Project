@@ -153,6 +153,37 @@ def print_receipt():
     else:
         print(f"\nYou did NOT purchase enough items. You were short by {itemsNeeded - itemsPurchased} items.")
 
+        # --- save receipt to external file ---
+    with open("receipt.txt", "a") as file:
+        file.write("----- Receipt -----\n")
+        for name, price, qty in orderList:
+            line_total = price * qty
+            file.write(f"{name} x {qty} - ${line_total:.2f}\n")
+
+        tax = totalCost * TAX_RATE
+        finalTotal = totalCost + tax
+
+        file.write(f"\nSubtotal: ${totalCost:.2f}\n")
+        file.write(f"Tax: ${tax:.2f}\n")
+        file.write(f"Total: ${finalTotal:.2f}\n")
+
+        file.write("\n----- Summary -----\n")
+        file.write(f"Budget: ${budget:.2f}\n")
+        file.write(f"Money Remaining: ${moneyRemaining:.2f}\n")
+        file.write(f"People in Party: {peopleCount}\n")
+        file.write(f"Items Needed: {itemsNeeded}\n")
+        file.write(f"Items Purchased: {itemsPurchased}\n")
+
+        if itemsPurchased >= itemsNeeded:
+            file.write("Status: Success — enough items purchased.\n\n")
+        else:
+            file.write(f"Status: Failure — short by {itemsNeeded - itemsPurchased} items.\n\n")
+
+        # --- automatically open the receipt file ---
+        import os
+        os.startfile("receipt.txt")
+
+
 def bye():
     # Prints a goodbye message and calls the receipt function
     print("\nThanks for ordering with us!\n")
