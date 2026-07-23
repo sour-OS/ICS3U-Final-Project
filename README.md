@@ -14,7 +14,7 @@ choose from five menu categories:
 - Desserts
 - Drinks
 
-They'll select items and quantities, and receive an itemized receipt with subtotal, tax, and
+Based on the budget they get and how many people the user chooses to input, they'll select items and quantities, and receive an itemized receipt with subtotal, tax, and
 total at checkout. The game validates all user input so it can't be crashed by invalid
 entries, and loops until the player chooses to exit. This project was built to
 demonstrate input/output, variables, arithmetic, if/else logic, loops, and functions.
@@ -28,12 +28,11 @@ demonstrate input/output, variables, arithmetic, if/else logic, loops, and funct
 * [PyInstaller](https://pyinstaller.org/) (only needed if rebuilding the `.exe` yourself)
 
 ### Installing
-
-* Clone or download this repository:
+Clone or download this repository:
 ```
 git clone https://github.com/<your-username>/<your-repo-name>.git
 ```
-* No additional setup is required to run the `.py` file — it uses only Python's standard library.
+No additional setup is required to run the `.py` file, as it uses only Python's standard library.
 
 ### Executing program
 
@@ -49,7 +48,8 @@ python restaurantgame.py
 * Double-click `restaurantgame.exe`
 
 **Playing the game**
-* Choose an option from the main menu (Order Food / Exit)
+* Declare how many people are with you at the restaurant
+* Choose an option from the main menu (Order Food / Budget Status / Exit)
 * Pick a category (breakfast, lunch, dinner, desserts, or drinks)
 * Enter the number of the item you want, then the quantity
 * Repeat until you're done ordering, then exit to see your final receipt
@@ -60,16 +60,17 @@ python restaurantgame.py
 ```
 python -m PyInstaller --onefile restaurantgame.py
 ```
-* If the game crashes on a number input, make sure you're entering whole numbers only (no letters or decimals) — the game will normally re-prompt you instead of crashing.
+* If the game crashes on a number input, make sure you're entering whole numbers only (no letters or decimals), the game will normally re-prompt you instead of crashing.
 
 ## Authors
 
-@sour-OS Sourodeep Bhowmik 
+Sourodeep Bhowmik
 
 ## Version History
-
+* 0.1.1
+Second release — added budget system to the game
 * 0.1
-    * Initial release — full menu system, input validation, receipt generation
+Initial release — full menu system, input validation, receipt generation
 
 ## License
 

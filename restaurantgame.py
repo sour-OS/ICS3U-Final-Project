@@ -3,11 +3,11 @@ restaurantgame.py
 Sourodeep Bhowmik
 2026/07/17
 
-
+Final Project – Restaurant Ordering Game
 '''
 
 #-------------------------------------------------------------------
-# imports
+# imports, random used to generate a starting budget
 import random
 
 #-------------------------------------------------------------------
@@ -42,8 +42,7 @@ totalCost = 0  # running subtotal
 TAX_RATE = 0.08  # constant tax rate
 
 #-------------------------------------------------------------------
-# modules: functions used to organize the program into reusable parts
-
+# modules
 def greetings():
     # Prints welcome message and shows the user's starting budget and item requirement
     print("Welcome to Souro's Diner!\n")
@@ -83,9 +82,7 @@ def choose_category():
             print("Not a valid category, try again.\n")
 
 def take_order(itemList, priceList):
-    # Handles ordering: validates item number and quantity,
-    # checks if the user can afford the purchase,
-    # updates totals, money remaining, and items purchased
+    # Handles ordering: validates item number and quantity, checks if the user can afford the purchase, updates totals, money remaining, and items purchased
 
     global totalCost, moneyRemaining, itemsPurchased
 
